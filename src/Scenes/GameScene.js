@@ -1,5 +1,8 @@
 import 'phaser';
-var spaceField
+var spaceField;
+var backgroundV;
+var player;
+var cursors;
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -16,28 +19,25 @@ export default class GameScene extends Phaser.Scene {
     // this.load.tilemapTiledJSON('map', 'assets/map/map.json');
 
     this.load.image('starfield', 'assets/space.png');
+    this.load.image('player', 'assets/rocket.png');
 
-    // enemies
-    // this.load.image("dragonblue", 'assets/dragonblue.png');
-    // this.load.image("dragonorrange", 'assets/dragonorrange.png');
-
-    // our two characters
-    // this.load.spritesheet('player', 'assets/RPG_assets.png', { frameWidth: 16, frameHeight: 16 });
   }
 
   create() {
-    // start the WorldScene
     this.spaceField = this.add.tileSprite(0, 0, 1600, 1400, 'starfield')
-    // var map = this.make.tilemap({ key: 'map' });
-    // var tiles = map.addTilesetImage('spritesheet', 'tiles');
-    // var grass = map.createStaticLayer('Grass', tiles, 0, 0);
-    // var obstacles = map.createStaticLayer('Obstacles', tiles, 0, 0);
-    // obstacles.setCollisionByExclusion([-1]);
+    backgroundV = 5
+    player = this.physics.add.sprite(400, 500, 'player');
+    cursors = this.input.keyboard.createCursorKeys();
   }
 
-  update (){
-    // this.backgound1.tilePositionX -= 0.5 //change this to a value suited for your needs change - to + to change direction
+  update() {
+    this.spaceField.tilePositionY += backgroundV;
+    if (cursors.left.isDown) {
+      player.body.setVelocityX(-200);
+    }
 
-   this.spaceField.tilePositionY +=2;
+    if (cursors.right.isDown) {
+      player.body.setVelocityX(200);
+    }
   }
 };
