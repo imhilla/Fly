@@ -3,9 +3,13 @@ var spaceField;
 var backgroundV;
 var player;
 var cursors;
-var bullets;
 var bulletTime = 0;
 var fireButton;
+var bullets;
+
+// const fireBullet = () => {
+
+// }
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -13,14 +17,6 @@ export default class GameScene extends Phaser.Scene {
   }
 
   preload() {
-    // load images
-    // this.load.image('logo', 'assets/logo.png');
-    // map tiles
-    // this.load.image('tiles', 'assets/map/spritesheet.png');
-
-    // map in json format
-    // this.load.tilemapTiledJSON('map', 'assets/map/map.json');
-
     this.load.image('starfield', 'assets/space.png');
     this.load.image('player', 'assets/rocket.png');
     this.load.image('bullet', 'assets/bullet.png');
@@ -29,9 +25,9 @@ export default class GameScene extends Phaser.Scene {
   create() {
     this.spaceField = this.add.tileSprite(0, 0, 1600, 1400, 'starfield')
     backgroundV = 5
-    player = this.physics.add.sprite(400, 500, 'player');
+    this.player = this.physics.add.sprite(400, 500, 'player');
     cursors = this.input.keyboard.createCursorKeys();
-    this.bullets = this.add.group();
+    this.bullets = this.physics.add.group();
     this.bullets.children.each(function (bullet) {
       bullet.enableBody = true;
       bullet.physicsBodyType = Phaser.Physics.ARCADE
@@ -46,29 +42,29 @@ export default class GameScene extends Phaser.Scene {
 
   update() {
     this.spaceField.tilePositionY += backgroundV;
-    player.body.setVelocityX(0);
+    this.player.body.setVelocityX(0);
 
     if (cursors.left.isDown) {
-      player.body.setVelocityX(-350);
+      this.player.body.setVelocityX(-350);
     }
 
     if (cursors.right.isDown) {
-      player.body.setVelocityX(350);
+      this.player.body.setVelocityX(350);
     }
 
     if (this.fireButton.isDown) {
-      fireBullet();
+      this.startTime = new Date();
+      if (this.startTime.getTime() > bulletTime) {
+        let bullet = this.bullets.get(this.player.x, (this.player.y))
+        if (bullet) {
+          // bullet.reset(this.player.x + 14, this.player.y);
+          bullet.body.setVelocityY(-400);
+          bulletTime = this.startTime.getTime() + 200;
+        }
+      }
     }
   }
+
 };
 
-const fireBullet = () => {
-  if (this.time.now > this.bulletTime) {
-    this.bullet = this.bullets.getFirstExists(false)
-    // if (this.bullet) {
-    //   this.bullet.reset(player.x + 14, player.y);
-    //   this.bullet.body.velocity.y = -400
-    //   this.bulletTime = this.time.now + 200;
-    // }
-  }
-}
+
