@@ -28,16 +28,20 @@ export default class GameScene extends Phaser.Scene {
     backgroundV = 5
     player = this.physics.add.sprite(400, 500, 'player');
     cursors = this.input.keyboard.createCursorKeys();
+    this.physics.world.bounds.width = groundLayer.width;
+    this.physics.world.bounds.height = groundLayer.height;
   }
 
   update() {
     this.spaceField.tilePositionY += backgroundV;
+    player.body.setVelocityX(0);
+
     if (cursors.left.isDown) {
-      player.body.setVelocityX(-200);
+      player.body.setVelocityX(-350);
     }
 
     if (cursors.right.isDown) {
-      player.body.setVelocityX(200);
+      player.body.setVelocityX(350);
     }
   }
 };
