@@ -44,11 +44,13 @@ export default class GameScene extends Phaser.Scene {
     ledge.body.immovable = true
 
     player = this.physics.add.sprite(100, 450, 'woof');
-    // this.physics.arcade.enable(player)
+
+    // physics.arcade.enable(player)
+
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
 
-    player.body.gravity.y = 800
+    player.body.gravity.y = 1000
 
     this.anims.create({
       key: 'left',
@@ -71,33 +73,38 @@ export default class GameScene extends Phaser.Scene {
     });
     this.physics.add.collider(player, platforms);
 
-    // player.animations.add('left', [0, 1], 10, true)
-    // player.animations.add('right', [2, 3], 10, true)
-    diamonds = this.add.group()
-    diamonds.enableBody = true
-
     diamonds = this.physics.add.group({
       key: 'diamond',
       repeat: 11,
-      setXY: { x: 12, y: 0, stepX: 70 }
+      // setXY: { x: 12, y: 0, stepX: 70 }
     });
 
-    // diamond.children.iterate(function (child) {
+    diamonds.enableBody = true
+
+    // diamonds.children.iterate(function (child) {
     //   child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
     // });
 
-    // for (var i = 0; i < 12; i++) {
-    //   const diamond = diamonds.create(i * 70, 0, 'diamond')
+    for (var i = 0; i < 12; i++) {
+      const diamond = diamonds.create(i * 70, 0, 'diamond')
 
-    //   //  Drop em from the sky and bounce a bit
-    //   diamond.body.gravity.y = 1000
-    //   diamond.body.bounce.y = 0.3 + Math.random() * 0.2
-    // }
+      //  Drop em from the sky and bounce a bit
+      diamond.body.gravity.y = 1000
+      diamond.body.bounce.y = 0.3 + Math.random() * 0.2
+    }
+    this.physics.add.collider(diamonds, platforms);
+
+    scoreText = this.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
+
     cursors = this.input.keyboard.createCursorKeys();
 
   }
 
   update() {
+    player.body.velocity.x = 0
+    game.physics.arcade.collide(player, platforms)
+    game.physics.arcade.collide(diamonds, platforms)
+
     if (cursors.left.isDown) {
       player.setVelocityX(-160);
 
@@ -115,7 +122,7 @@ export default class GameScene extends Phaser.Scene {
     }
 
     if (cursors.up.isDown && player.body.touching.down) {
-      player.setVelocityY(-330);
+      player.setVelocityY(-730);
     }
   }
 
