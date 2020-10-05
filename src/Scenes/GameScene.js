@@ -1,15 +1,17 @@
 import 'phaser';
-var spaceField;
-var backgroundV;
-var player;
-var cursors;
-var bulletTime = 0;
-var fireButton;
-// var bullets;
+// var spaceField;
+// var backgroundV;
+// var player;
+// var cursors;
+// var bulletTime = 0;
+// var fireButton;
 
-// const fireBullet = () => {
-
-// }
+let score = 0
+let scoreText
+let platforms
+let diamonds
+let cursors
+let player
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -17,9 +19,13 @@ export default class GameScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('starfield', 'assets/space.png');
-    this.load.image('player', 'assets/rocket.png');
-    this.load.image('bullet', 'assets/bullet.png');
+    this.load.image('sky', './assets/sky.png')
+    this.load.image('ground', './assets/platform.png')
+    this.load.image('diamond', './assets/diamond.png')
+    this.load.spritesheet('woof', './assets/woof.png', 32, 32)
+    // this.load.image('starfield', 'assets/space.png');
+    // this.load.image('player', 'assets/rocket.png');
+    // this.load.image('bullet', 'assets/bullet.png');
   }
 
   create() {
