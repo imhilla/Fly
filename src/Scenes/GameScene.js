@@ -5,7 +5,7 @@ var player;
 var cursors;
 var bulletTime = 0;
 var fireButton;
-var bullets;
+// var bullets;
 
 // const fireBullet = () => {
 
@@ -27,16 +27,37 @@ export default class GameScene extends Phaser.Scene {
     backgroundV = 5
     this.player = this.physics.add.sprite(400, 500, 'player');
     cursors = this.input.keyboard.createCursorKeys();
-    this.bullets = this.physics.add.group();
-    this.bullets.children.each(function (bullet) {
-      bullet.enableBody = true;
-      bullet.physicsBodyType = Phaser.Physics.ARCADE
-      bullet.createMultiple(30, 'bullet')
-      bullet.set('anchor.x', 0.5)
-      bullet.set('anchor.y', 1)
-      bullet.set('outOfBoundKill', true)
-      bullet.set('checkWorldBounds', true)
+    // this.bullets = this.physics.add.group();
+    // var bullets = this.physics.add.group({
+    //   key: 'bullet',
+    //   max: 30
+    // });
+
+    var bullets = this.make.group({
+      key: 'bullet',
+      frame: [0, 1, 2, 3, 4],
+      // frameQuantity: 22,
+      max: 30
+    });
+    bullets.physicsBodyType = Phaser.Physics.ARCADE
+    bullets.enableBody = true;
+    bullets.children.each(function (bullet) {
+      console.log(bullet)
+      // bullet.setAll('anchor.x', 0.5)
+      // bullet.setAll('anchor.y', 1)
+      // bullet.set('outOfBoundKill', true)
+      // bullet.set('checkWorldBounds', true)
+      // console.log(bullet)
     }, this);
+    Phaser.Actions.GridAlign(bullets.getChildren(), {
+      width: 12,
+      height: 9,
+      cellWidth: 64,
+      cellHeight: 64,
+      x: 48,
+      y: 32
+    });
+
     this.fireButton = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
   }
 
@@ -57,6 +78,7 @@ export default class GameScene extends Phaser.Scene {
       if (this.startTime.getTime() > bulletTime) {
         let bullet = this.bullets.get(this.player.x, (this.player.y))
         if (bullet) {
+          // console.log(bullet)
           // bullet.reset(this.player.x + 14, this.player.y);
           bullet.body.setVelocityY(-400);
           bulletTime = this.startTime.getTime() + 200;
