@@ -36,9 +36,21 @@ export default class GameScene extends Phaser.Scene {
     platforms.create(400, 568, 'ground').setScale(2).refreshBody();
     platforms.create(600, 400, 'ground');
     platforms.create(50, 250, 'ground');
-    platforms.create(750, 220, 'ground');
+    // platforms.create(750, 220, 'ground');
 
-    // const ground = platforms.create(0, this.world.height - 64, 'ground')
+    let ledge = platforms.create(400, 450, 'ground')
+    ledge.body.immovable = true
+
+    ledge = platforms.create(-75, 350, 'ground')
+    ledge.body.immovable = true
+
+    player = this.physics.add.sprite(100, 450, 'woof');
+    // game.physics.arcade.enable(player)
+    player.setBounce(0.2);
+    player.setCollideWorldBounds(true);
+
+    player.body.gravity.y = 800
+  
 
   }
 
