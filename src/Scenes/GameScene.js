@@ -79,11 +79,11 @@ export default class GameScene extends Phaser.Scene {
       // setXY: { x: 12, y: 0, stepX: 70 }
     });
 
-    diamonds.enableBody = true
+    // diamonds.enableBody = true
 
-    // diamonds.children.iterate(function (child) {
-    //   child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-    // });
+    diamonds.children.iterate(function (child) {
+      child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+    });
 
     for (var i = 0; i < 12; i++) {
       const diamond = diamonds.create(i * 70, 0, 'diamond')
@@ -101,9 +101,11 @@ export default class GameScene extends Phaser.Scene {
   }
 
   update() {
-    player.body.velocity.x = 0
-    game.physics.arcade.collide(player, platforms)
-    game.physics.arcade.collide(diamonds, platforms)
+    this.physics.add.overlap(player, diamonds, collectDiamond, null, this);
+
+    // function collectStar(player, diamond) {
+    //   diamond.disableBody(true, true);
+    // }
 
     if (cursors.left.isDown) {
       player.setVelocityX(-160);
@@ -124,8 +126,21 @@ export default class GameScene extends Phaser.Scene {
     if (cursors.up.isDown && player.body.touching.down) {
       player.setVelocityY(-730);
     }
+
+    if (score === 120) {
+      alert('You win!')
+      score = 0
+    }
   }
 
 };
 
+function collectDiamond (player, diamond) {
+  // Removes the diamond from the screen
+  diamond.disableBody(true, true);
+
+  //  And update the score
+  score += 10
+  scoreText.text = 'Score: ' + score
+}
 
