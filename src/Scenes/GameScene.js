@@ -7,6 +7,7 @@ let diamonds
 let cursors
 let player
 let spaceField
+let youWin
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -16,7 +17,7 @@ export default class GameScene extends Phaser.Scene {
   preload() {
     this.load.image('bomb', './assets/bomb.png')
     this.load.image('ground', './assets/platform.png')
-    this.load.image('diamond', './assets/diamond.png')
+    this.load.image('diamond', './assets/apple.png')
     this.load.image('sky', 'assets/space.png');
     this.load.spritesheet('woof',
       './assets/woof.png',
@@ -80,6 +81,7 @@ export default class GameScene extends Phaser.Scene {
 
     this.physics.add.collider(diamonds, platforms);
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#FFF' })
+    // youWin = this.add.text(18, 70, 'You win!!', { fontSize: '32px', fill: '#FFF' })
     cursors = this.input.keyboard.createCursorKeys();
 
     var bombs = this.physics.add.group();
@@ -119,7 +121,6 @@ export default class GameScene extends Phaser.Scene {
   }
 };
 
-
 function collectDiamond(player, diamond) {
   diamond.disableBody(true, true);
 
@@ -134,20 +135,8 @@ function collectDiamond(player, diamond) {
     });
 
     var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
-
-    // var bomb = bombs.create(x, 16, 'bomb');
-    // bomb.setBounce(1);
-    // bomb.setCollideWorldBounds(true);
-    // bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-
   }
 }
-
-// function collectDiamond(player, diamond) {
-//   diamond.disableBody(true, true);
-//   score += 10
-//   scoreText.text = 'Score: ' + score
-// }
 
 function hitBomb(player, bomb) {
   this.physics.pause();
