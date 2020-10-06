@@ -1,4 +1,5 @@
 import 'phaser';
+import GameOverScene from './GameOverScene';
 import LocalStorage from '../Objects/LocalStorage';
 
 let score = 0
@@ -82,9 +83,7 @@ export default class GameScene extends Phaser.Scene {
     }
 
     this.physics.add.collider(diamonds, platforms);
-    // this.scoreText.setText(`Score: ${LocalStorage}`);
     scoreText = this.add.text(16, 16, `Score: ${LocalStorage.readLocalStorage()}`, { fontSize: '32px', fill: '#FFF' })
-    // youWin = this.add.text(18, 70, 'You win!!', { fontSize: '32px', fill: '#FFF' })
     cursors = this.input.keyboard.createCursorKeys();
 
     var bombs = this.physics.add.group();
@@ -126,8 +125,9 @@ export default class GameScene extends Phaser.Scene {
     }
 
     if (score === 120) {
-      alert('You win!')
-      score = 0
+      // alert('You win!')
+      // score = 0
+      this.scene.start('GameOver');
     }
   }
 };
