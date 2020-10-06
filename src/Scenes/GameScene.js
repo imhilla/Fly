@@ -1,4 +1,5 @@
 import 'phaser';
+import LocalStorage from '../Objects/LocalStorage';
 
 let score = 0
 let scoreText
@@ -26,6 +27,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create() {
+    localStorage.setItem('score', 0);
     this.spaceField = this.add.tileSprite(0, 0, 1600, 1400, 'sky')
     platforms = this.physics.add.staticGroup();
     platforms.enableBody = true
@@ -80,17 +82,26 @@ export default class GameScene extends Phaser.Scene {
     }
 
     this.physics.add.collider(diamonds, platforms);
-    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#FFF' })
+    // this.scoreText.setText(`Score: ${LocalStorage}`);
+    scoreText = this.add.text(16, 16, `Score: ${LocalStorage.readLocalStorage()}`, { fontSize: '32px', fill: '#FFF' })
     // youWin = this.add.text(18, 70, 'You win!!', { fontSize: '32px', fill: '#FFF' })
     cursors = this.input.keyboard.createCursorKeys();
 
     var bombs = this.physics.add.group();
     this.physics.add.collider(bombs, platforms);
     this.physics.add.collider(player, bombs, hitBomb, null, this);
+
+    this.scoreText = this.add
+      .text(200, 150, `Score: ${LocalStorage.readLocalStorage()}`, {
+        fontSize: '20px',
+        fill: '#000',
+      })
+      .setScrollFactor(0)
+      .setDepth(100);
   }
 
   update() {
-    this.spaceField.tilePositionY +=2;
+    this.spaceField.tilePositionY += 2;
 
     this.physics.add.overlap(player, diamonds, collectDiamond, null, this);
 
