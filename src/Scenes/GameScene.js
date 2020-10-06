@@ -1,10 +1,4 @@
 import 'phaser';
-// var spaceField;
-// var backgroundV;
-// var player;
-// var cursors;
-// var bulletTime = 0;
-// var fireButton;
 
 let score = 0
 let scoreText
@@ -12,6 +6,7 @@ let platforms
 let diamonds
 let cursors
 let player
+let spaceField
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -19,10 +14,10 @@ export default class GameScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('sky', './assets/sky.png')
+    this.load.image('bomb', './assets/bomb.png')
     this.load.image('ground', './assets/platform.png')
     this.load.image('diamond', './assets/diamond.png')
-    // this.load.spritesheet('woof', './assets/woof.png')
+    this.load.image('sky', 'assets/space.png');
     this.load.spritesheet('woof',
       './assets/woof.png',
       { frameWidth: 32, frameHeight: 48 }
@@ -30,7 +25,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create() {
-    this.add.sprite(400, 300, 'sky')
+    this.spaceField = this.add.tileSprite(0, 0, 1600, 1400, 'sky')
     platforms = this.physics.add.staticGroup();
     platforms.enableBody = true
     platforms.create(400, 568, 'ground').setScale(2).refreshBody();
@@ -40,12 +35,7 @@ export default class GameScene extends Phaser.Scene {
     let ledge = platforms.create(400, 450, 'ground')
     ledge.body.immovable = true
 
-    ledge = platforms.create(-75, 350, 'ground')
-    ledge.body.immovable = true
-
     player = this.physics.add.sprite(100, 450, 'woof');
-
-    // physics.arcade.enable(player)
 
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
@@ -76,10 +66,7 @@ export default class GameScene extends Phaser.Scene {
     diamonds = this.physics.add.group({
       key: 'diamond',
       repeat: 11,
-      // setXY: { x: 12, y: 0, stepX: 70 }
     });
-
-    // diamonds.enableBody = true
 
     diamonds.children.iterate(function (child) {
       child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
@@ -87,25 +74,23 @@ export default class GameScene extends Phaser.Scene {
 
     for (var i = 0; i < 12; i++) {
       const diamond = diamonds.create(i * 70, 0, 'diamond')
-
-      //  Drop em from the sky and bounce a bit
       diamond.body.gravity.y = 1000
       diamond.body.bounce.y = 0.3 + Math.random() * 0.2
     }
+
     this.physics.add.collider(diamonds, platforms);
-
-    scoreText = this.add.text(16, 16, '', { fontSize: '32px', fill: '#000' })
-
+    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#FFF' })
     cursors = this.input.keyboard.createCursorKeys();
 
+    var bombs = this.physics.add.group();
+    this.physics.add.collider(bombs, platforms);
+    this.physics.add.collider(player, bombs, hitBomb, null, this);
   }
 
   update() {
-    this.physics.add.overlap(player, diamonds, collectDiamond, null, this);
+    this.spaceField.tilePositionY +=2;
 
-    // function collectStar(player, diamond) {
-    //   diamond.disableBody(true, true);
-    // }
+    this.physics.add.overlap(player, diamonds, collectDiamond, null, this);
 
     if (cursors.left.isDown) {
       player.setVelocityX(-160);
@@ -132,15 +117,44 @@ export default class GameScene extends Phaser.Scene {
       score = 0
     }
   }
-
 };
 
-function collectDiamond (player, diamond) {
-  // Removes the diamond from the screen
+
+function collectDiamond(player, diamond) {
   diamond.disableBody(true, true);
 
-  //  And update the score
-  score += 10
-  scoreText.text = 'Score: ' + score
+  score += 10;
+  scoreText.setText('Score: ' + score);
+
+  if (diamonds.countActive(true) === 0) {
+    diamonds.children.iterate(function (child) {
+
+      child.enableBody(true, child.x, 0, true, true);
+
+    });
+
+    var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+
+    // var bomb = bombs.create(x, 16, 'bomb');
+    // bomb.setBounce(1);
+    // bomb.setCollideWorldBounds(true);
+    // bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+
+  }
 }
 
+// function collectDiamond(player, diamond) {
+//   diamond.disableBody(true, true);
+//   score += 10
+//   scoreText.text = 'Score: ' + score
+// }
+
+function hitBomb(player, bomb) {
+  this.physics.pause();
+
+  player.setTint(0xff0000);
+
+  player.anims.play('turn');
+
+  gameOver = true;
+}
