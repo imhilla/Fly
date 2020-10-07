@@ -5,6 +5,7 @@ import 'phaser';
 import Button from '../Objects/Button';
 import API from '../Objects/API';
 import blue_button02 from './blue_button02.png';
+console.log('here')
 
 export default class LeaderBoardScene extends Phaser.Scene {
   constructor() {
@@ -12,32 +13,32 @@ export default class LeaderBoardScene extends Phaser.Scene {
   }
 
   create() {
-    this.add
-      .text(400, 50, 'Leader Board', {
-        color: 'white',
-        fontSize: '50px ',
-      })
-      .setOrigin(0.5, 0.5);
+    console.log('here')
+      this.add
+        .text(400, 50, 'Leader Board', {
+          color: 'white',
+          fontSize: '50px ',
+        })
+        .setOrigin(0.5, 0.5);
+      API.getScores().then((data) => {
+        const { result } = data;
 
-    API.getScores().then((data) => {
-      const { result } = data;
+        result.sort((a, b) => b.score - a.score);
+        this.add.text(190, 100, 'RANK      NAME            SCORE', {
+          fontSize: '20px',
+        });
+        this.size = result.length < 8 ? result.length : 8;
 
-      result.sort((a, b) => b.score - a.score);
-      this.add.text(190, 100, 'RANK      NAME            SCORE', {
-        fontSize: '20px',
+        let spacing = 100;
+
+        for (let i = 0; i < this.size; i += 1) {
+          this.add.text(200, 50 + spacing, i + 1, { fontSize: '20px' });
+          this.add.text(310, 50 + spacing, result[i].user, { fontSize: '20px' });
+          this.add.text(560, 50 + spacing, result[i].score, { fontSize: '20px' });
+
+          spacing += 35;
+        }
       });
-      this.size = result.length < 8 ? result.length : 8;
-
-      let spacing = 100;
-
-      for (let i = 0; i < this.size; i += 1) {
-        this.add.text(200, 50 + spacing, i + 1, { fontSize: '20px' });
-        this.add.text(310, 50 + spacing, result[i].user, { fontSize: '20px' });
-        this.add.text(560, 50 + spacing, result[i].score, { fontSize: '20px' });
-
-        spacing += 35;
-      }
-    });
 
     const style = `background: url(${blue_button02}); cursor:pointer; color: #fff;`;
     const menu = this.add

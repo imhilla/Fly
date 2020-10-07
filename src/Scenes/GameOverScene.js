@@ -17,7 +17,6 @@ export default class GameOverScene extends Phaser.Scene {
   }
 
   create() {
-    console.log('come on')
     this.spaceField = this.add.tileSprite(0, 0, 1600, 1400, 'sky')
     this.sys.game.globals.bgMusic.stop();
     // const user = this.sys.game.globals.model.userName;
@@ -48,7 +47,7 @@ export default class GameOverScene extends Phaser.Scene {
     leaderBoard.addListener('click');
 
     leaderBoard.on('click', () => {
-      this.scene.start('LeaderBoard');
+      this.scene.start('Boot');
     });
 
     const menu = this.add.dom(520, 400, 'button', style, 'Restart');
@@ -59,5 +58,9 @@ export default class GameOverScene extends Phaser.Scene {
     menu.on('click', () => {
       window.location.reload()
     });
+  }
+
+  update() {
+    this.spaceField.tilePositionY += 2;
   }
 }
