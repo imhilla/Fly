@@ -23,8 +23,8 @@ export default class GameOverScene extends Phaser.Scene {
     // const user = this.sys.game.globals.model.userName;
     const user = 'Hillary';
 
-    // const score = localStorage.getItem('score');
-    const score = 120;
+    const score = localStorage.getItem('score');
+    // const score = 120;
 
     localStorage.clear();
     // API.postScores(user, score);
@@ -41,15 +41,6 @@ export default class GameOverScene extends Phaser.Scene {
       },
     );
 
-    // var style = {
-    //   'background-color': 'white',
-    //   'width': '220px',
-    //   'height': '100px',
-    //   'font': '48px Arial',
-    //   'font-weight': 'bold'
-    // };
-
-    // let leaderBoard = this.add.image(270, 400, 'button');
     const style = `background: url(${blue_button02}); cursor:pointer; color: #fff;`;
     const leaderBoard = this.add.dom(270, 400, 'button', style, 'Scores');
     leaderBoard.scaleX = 3.5;
@@ -57,8 +48,7 @@ export default class GameOverScene extends Phaser.Scene {
     leaderBoard.addListener('click');
 
     leaderBoard.on('click', () => {
-      // this.scene.start('LeaderBoard');
-      console.log('leaderBoard')
+      this.scene.start('LeaderBoard');
     });
 
     const menu = this.add.dom(520, 400, 'button', style, 'Restart');
@@ -66,8 +56,8 @@ export default class GameOverScene extends Phaser.Scene {
     menu.scaleY = 2;
     menu.addListener('click');
 
-    // menu.on('click', () => {
-    //   this.scene.start('GameScene');
-    // });
+    menu.on('click', () => {
+      window.location.reload()
+    });
   }
 }
