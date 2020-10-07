@@ -4,7 +4,7 @@ const API = (() => {
   async function getScores() {
     try {
       const scores = await fetch(
-        'https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/EoD8C5Y4zROlv7siBnqH/scores',
+        'https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/UAXSbV8jwtwhJKDROcgR/scores',
         {
           method: 'GET',
           headers: {
@@ -23,7 +23,7 @@ const API = (() => {
   async function postScores(name, score) {
     try {
       const result = await fetch(
-        'https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/EoD8C5Y4zROlv7siBnqH/scores',
+        'https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/UAXSbV8jwtwhJKDROcgR/scores',
         {
           method: 'POST',
           headers: {
@@ -47,3 +47,8 @@ const API = (() => {
 })();
 
 export default API;
+
+
+// {
+//     "result": "Game with ID: UAXSbV8jwtwhJKDROcgR added."
+// }
