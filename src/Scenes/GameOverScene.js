@@ -2,8 +2,8 @@
 /* eslint-disable no-restricted-globals */
 import Phaser from 'phaser';
 // import Player from '../Classes/Player';
-// import API from '../Objects/API';
-// import blue_button02 from './assets/ui/blue_button02.png';
+import API from '../Objects/API';
+import blue_button02 from '../Scenes/asset/blue_button02.png';
 let spaceField
 
 export default class GameOverScene extends Phaser.Scene {
@@ -13,21 +13,21 @@ export default class GameOverScene extends Phaser.Scene {
 
   preload() {
     this.load.image('sky', 'assets/space.png');
-    this.load.image('button', 'assets/ui/blue_button02.png');
+    this.load.image('button', '../assets/ui/blue_button02.png');
   }
 
   create() {
     console.log('come on')
     this.spaceField = this.add.tileSprite(0, 0, 1600, 1400, 'sky')
-    let blue_button02 = 'button'
     this.sys.game.globals.bgMusic.stop();
     // const user = this.sys.game.globals.model.userName;
     const user = 'Hillary';
 
-    const score = localStorage.getItem('score');
+    // const score = localStorage.getItem('score');
+    const score = 120;
+
     localStorage.clear();
     // API.postScores(user, score);
-
     this.scoreText = this.add.text(
       200,
       250,
@@ -41,6 +41,15 @@ export default class GameOverScene extends Phaser.Scene {
       },
     );
 
+    // var style = {
+    //   'background-color': 'white',
+    //   'width': '220px',
+    //   'height': '100px',
+    //   'font': '48px Arial',
+    //   'font-weight': 'bold'
+    // };
+
+    // let leaderBoard = this.add.image(270, 400, 'button');
     const style = `background: url(${blue_button02}); cursor:pointer; color: #fff;`;
     const leaderBoard = this.add.dom(270, 400, 'button', style, 'Scores');
     leaderBoard.scaleX = 3.5;
@@ -48,7 +57,8 @@ export default class GameOverScene extends Phaser.Scene {
     leaderBoard.addListener('click');
 
     leaderBoard.on('click', () => {
-      this.scene.start('LeaderBoard');
+      // this.scene.start('LeaderBoard');
+      console.log('leaderBoard')
     });
 
     const menu = this.add.dom(520, 400, 'button', style, 'Restart');
@@ -56,8 +66,8 @@ export default class GameOverScene extends Phaser.Scene {
     menu.scaleY = 2;
     menu.addListener('click');
 
-    menu.on('click', () => {
-      this.scene.start('GameScene');
-    });
+    // menu.on('click', () => {
+    //   this.scene.start('GameScene');
+    // });
   }
 }
