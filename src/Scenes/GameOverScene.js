@@ -19,11 +19,11 @@ export default class GameOverScene extends Phaser.Scene {
     this.spaceField = this.add.tileSprite(0, 0, 1600, 1400, 'sky')
     this.sys.game.globals.bgMusic.stop();
     const user = this.sys.game.globals.model.userName;
-    // const score = localStorage.getItem('score');
-    const score = 120;
+    const score = localStorage.getItem('score');
+    // const score = 120;
 
-    localStorage.clear();
-    API.postScores(user, score);
+    // localStorage.clear();
+    // API.postScores(user, score);
     this.scoreText = this.add.text(
       200,
       250,

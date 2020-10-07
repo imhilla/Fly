@@ -3,13 +3,13 @@ import GameOverScene from './GameOverScene';
 import LocalStorage from '../Objects/LocalStorage';
 
 let score = 0
+let scoreText
 let platforms
 let diamonds
 let cursors
+let player
 let spaceField
 let youWin
-var sprite
-var scoreText
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -17,8 +17,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('tiles', './assets/cybernoid.png', 16, 16);
-    this.load.image('phaser', 'assets/phaser-ship.png');
+    this.load.image('bomb', './assets/bomb.png')
     this.load.image('ground', './assets/platform.png')
     this.load.image('diamond', './assets/apple.png')
     this.load.image('sky', 'assets/space.png');
@@ -29,13 +28,8 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create() {
-    this.spaceField = this.add.tileSprite(0, 0, 1600, 1400, 'sky')
-
-    sprite = this.physics.add.sprite(300, 90, 'phaser');
-    sprite.setBounce(0.2);
-    sprite.setCollideWorldBounds(true);
-
     localStorage.setItem('score', 0);
+    this.spaceField = this.add.tileSprite(0, 0, 1600, 1400, 'sky')
     platforms = this.physics.add.staticGroup();
     platforms.enableBody = true
     platforms.create(400, 568, 'ground').setScale(2).refreshBody();
@@ -45,7 +39,33 @@ export default class GameScene extends Phaser.Scene {
     let ledge = platforms.create(400, 450, 'ground')
     ledge.body.immovable = true
 
-    this.physics.add.collider(sprite, platforms);
+    player = this.physics.add.sprite(100, 450, 'woof');
+
+    player.setBounce(0.2);
+    player.setCollideWorldBounds(true);
+
+    player.body.gravity.y = 1000
+
+    this.anims.create({
+      key: 'left',
+      frames: this.anims.generateFrameNumbers('woof', { start: 0, end: 3 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'turn',
+      frames: [{ key: 'woof', frame: 4 }],
+      frameRate: 20
+    });
+
+    this.anims.create({
+      key: 'right',
+      frames: this.anims.generateFrameNumbers('woof', { start: 5, end: 8 }),
+      frameRate: 10,
+      repeat: -1
+    });
+    this.physics.add.collider(player, platforms);
 
     diamonds = this.physics.add.group({
       key: 'diamond',
@@ -65,42 +85,58 @@ export default class GameScene extends Phaser.Scene {
     this.physics.add.collider(diamonds, platforms);
     this.scoreText = this.add.text(16, 16, `Score: ${LocalStorage.readLocalStorage()}`, { fontSize: '32px', fill: '#FFF' })
     cursors = this.input.keyboard.createCursorKeys();
+
+    var bombs = this.physics.add.group();
+    this.physics.add.collider(bombs, platforms);
+    this.physics.add.collider(player, bombs, hitBomb, null, this);
+
+    this.scoreText = this.add
+      .text(200, 150, `Score: ${LocalStorage.readLocalStorage()}`, {
+        fontSize: '20px',
+        fill: '#000',
+      })
+      .setScrollFactor(0)
+      .setDepth(100);
   }
 
   update() {
     this.spaceField.tilePositionY += 2;
-    sprite.body.setVelocityX(0);
-    sprite.body.setVelocityY(0);
 
-    if (cursors.up.isDown) {
-      sprite.body.setVelocityY(-200)
-    }
-    else if (cursors.down.isDown) {
-      sprite.body.setVelocityY(200)
-    }
+    this.physics.add.overlap(player, diamonds, collectDiamond, null, this);
 
     if (cursors.left.isDown) {
-      sprite.body.setVelocityX(-200);
+      player.setVelocityX(-160);
+
+      player.anims.play('left', true);
     }
     else if (cursors.right.isDown) {
-      sprite.body.setVelocityX(200)
+      player.setVelocityX(160);
+
+      player.anims.play('right', true);
+    }
+    else {
+      player.setVelocityX(0);
+
+      player.anims.play('turn');
     }
 
-    this.physics.add.overlap(sprite, diamonds, collectDiamond, null, this)
+    if (cursors.up.isDown && player.body.touching.down) {
+      player.setVelocityY(-730);
+    }
 
-    if (score === 100) {
+    if (score === 120) {
       // alert('You win!')
       // score = 0
-      this.scoreText.setText(`Score: ${LocalStorage.readLocalStorage()}`);
       this.scene.start('GameOver');
     }
   }
 };
 
-function collectDiamond(sprite, diamond) {
+function collectDiamond(player, diamond) {
   diamond.disableBody(true, true);
+
   score += 10;
-  this.scoreText.setText('Score: ' + score);
+  scoreText.setText('Score: ' + score);
 
   if (diamonds.countActive(true) === 0) {
     diamonds.children.iterate(function (child) {
@@ -109,6 +145,16 @@ function collectDiamond(sprite, diamond) {
 
     });
 
-    var x = (sprite.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+    var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
   }
+}
+
+function hitBomb(player, bomb) {
+  this.physics.pause();
+
+  player.setTint(0xff0000);
+
+  player.anims.play('turn');
+
+  gameOver = true;
 }
