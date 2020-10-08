@@ -5,10 +5,9 @@ import Counter from '../Objects/counter';
 
 let score = 0
 let platforms
-let diamonds
+let apples
 let cursors
 let spaceField
-let youWin
 var sprite
 var scoreText
 var counter = 1000
@@ -22,7 +21,7 @@ export default class GameScene extends Phaser.Scene {
     this.load.image('tiles', './assets/cybernoid.png', 16, 16);
     this.load.image('phaser', 'assets/phaser-ship.png');
     this.load.image('ground', './assets/platform.png')
-    this.load.image('diamond', './assets/apple.png')
+    this.load.image('apple', './assets/apple.png')
     this.load.image('sky', 'assets/space.png');
     this.load.spritesheet('woof',
       './assets/woof.png',
@@ -49,23 +48,23 @@ export default class GameScene extends Phaser.Scene {
     ledge.body.immovable = true
     this.physics.add.collider(sprite, platforms);
 
-    diamonds = this.physics.add.group({
-      key: 'diamond',
+    apples = this.physics.add.group({
+      key: 'apple',
       repeat: 40,
     });
 
     for (var i = 0; i < 12; i++) {
-      const diamond = diamonds.create(i * 70, 0, 'diamond')
-      diamond.body.gravity.y = 1000
-      diamond.body.bounce.y = 0.3 + Math.random() * 0.5
-      diamond.body.velocity.setTo(1200, 400);
-      diamond.body.collideWorldBounds = true;
-      diamond.body.bounce.set(0.9);
-      diamond.body.gravity.set(0, 180);
+      const apple = apples.create(i * 70, 0, 'apple')
+      apple.body.gravity.y = 1000
+      apple.body.bounce.y = 0.3 + Math.random() * 0.5
+      apple.body.velocity.setTo(1200, 400);
+      apple.body.collideWorldBounds = true;
+      apple.body.bounce.set(0.9);
+      apple.body.gravity.set(0, 180);
     }
-    this.physics.add.collider(diamonds, platforms);
+    this.physics.add.collider(apples, platforms);
     this.scoreText = this.add.text(16, 16, `Score: ${LocalStorage.readLocalStorage()}`, { fontSize: '32px', fill: '#FFF' })
-    this.timeLeft = this.add.text(20, 100, `Time left: ${Counter.getCounter()}`, { fontSize: '32px', fill: '#FFF' })
+    this.timeLeft = this.add.text(20, 100, `Fuel left: ${Counter.getCounter()}`, { fontSize: '32px', fill: '#FFF' })
     cursors = this.input.keyboard.createCursorKeys();
   }
   update() {
@@ -92,14 +91,14 @@ export default class GameScene extends Phaser.Scene {
       sprite.body.setVelocityX(200)
     }
 
-    this.physics.add.overlap(sprite, diamonds, collectDiamond, null, this)
+    this.physics.add.overlap(sprite, apples, collectApple, null, this)
 
     if (counter === 0) {
       this.scene.start('GameOver');
     }
     if (eating === true){
       counter -= 1;
-      this.timeLeft.setText('Timeleft: ' + counter);
+      this.timeLeft.setText('Fuelleft: ' + counter);
     }
     if (counter === 0) {
       this.scoreText.setText(`Score: ${LocalStorage.saveLocalStorage(score)}`);
@@ -109,13 +108,13 @@ export default class GameScene extends Phaser.Scene {
   }
 };
 var startedEating = false
-function collectDiamond(sprite, diamond) {
-  diamond.disableBody(true, true);
+function collectApple(sprite, apple) {
+  apple.disableBody(true, true);
   startedEating = true;
   score += 10;
   this.scoreText.setText('Score: ' + score);
-  if (diamonds.countActive(true) === 0) {
-    diamonds.children.iterate(function (child) {
+  if (apples.countActive(true) === 0) {
+    apples.children.iterate(function (child) {
       child.enableBody(true, child.x, 0, true, true);
     });
     var x = (sprite.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
