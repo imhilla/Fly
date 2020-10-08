@@ -1,5 +1,7 @@
 /* eslint-disable func-names */
 /* eslint-disable no-unused-expressions */
+/* eslint-disable no-unused-vars, prefer-destructuring */
+
 import Phaser from 'phaser';
 import LocalStorage from '../Objects/LocalStorage';
 import Counter from '../Objects/counter';
@@ -10,6 +12,19 @@ let apples;
 let cursors;
 let sprite;
 let counter = 1000;
+
+var startedEating = false;
+function collectApple(sprite, apple) {
+  apple.disableBody(true, true);
+  startedEating = true;
+  score += 10;
+  this.scoreText.setText(`Score: ${score}`);
+  if (apples.countActive(true) === 0) {
+    apples.children.iterate((child) => {
+      child.enableBody(true, child.x, 0, true, true);
+    });
+  }
+}
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -40,14 +55,15 @@ export default class GameScene extends Phaser.Scene {
     platforms.create(400, 568, 'ground').setScale(2).refreshBody();
     platforms.create(50, 250, 'ground');
     platforms.create(750, 220, 'ground');
-    let ledge = platforms.create(400, 450, 'ground');
+    const ledge = platforms.create(400, 450, 'ground');
     ledge.body.immovable = true;
     this.physics.add.collider(sprite, platforms);
     apples = this.physics.add.group({
       key: 'apple',
       repeat: 40,
     });
-    for (var i = 0; i < 12; i++) {
+    
+    for (var i = 0; i < 12; i += 1) {
       const apple = apples.create(i * 70, 0, 'apple');
       apple.body.gravity.y = 1000;
       apple.body.bounce.y = 0.3 + Math.random() * 0.5;
@@ -72,6 +88,7 @@ export default class GameScene extends Phaser.Scene {
       eating = true;
       sprite.body.setVelocityY(-200);
     }
+
     else if (cursors.down.isDown) {
       eating === true;
       sprite.body.setVelocityY(200);
@@ -93,7 +110,7 @@ export default class GameScene extends Phaser.Scene {
     }
     if (eating === true) {
       counter -= 1;
-      this.timeLeft.setText('Fuel left: ' + counter);
+      this.timeLeft.setText(`Fuel left: ${counter}`);
     }
     if (counter === 0) {
       this.scoreText.setText(`Score: ${LocalStorage.saveLocalStorage(score)}`);
@@ -102,15 +119,3 @@ export default class GameScene extends Phaser.Scene {
   }
 };
 
-var startedEating = false;
-function collectApple(sprite, apple) {
-  apple.disableBody(true, true);
-  startedEating = true;
-  score += 10;
-  this.scoreText.setText(`Score: ${score}`);
-  if (apples.countActive(true) === 0) {
-    apples.children.iterate(function (child) {
-      child.enableBody(true, child.x, 0, true, true);
-    });
-  }
-}
