@@ -37,10 +37,7 @@ export default class GameScene extends Phaser.Scene {
     this.load.image('ground', './assets/platform.png');
     this.load.image('apple', './assets/apple.png');
     this.load.image('sky', 'assets/space.png');
-    this.load.spritesheet('woof',
-      './assets/woof.png',
-      { frameWidth: 32, frameHeight: 48 }
-    );
+    this.load.spritesheet('woof', './assets/woof.png', { frameWidth: 32, frameHeight: 48 });
   }
 
   create() {
@@ -62,7 +59,6 @@ export default class GameScene extends Phaser.Scene {
       key: 'apple',
       repeat: 40,
     });
-    
     for (var i = 0; i < 12; i += 1) {
       const apple = apples.create(i * 70, 0, 'apple');
       apple.body.gravity.y = 1000;
@@ -88,12 +84,10 @@ export default class GameScene extends Phaser.Scene {
       eating = true;
       sprite.body.setVelocityY(-200);
     }
-
     else if (cursors.down.isDown) {
       eating === true;
       sprite.body.setVelocityY(200);
     }
-
     if (cursors.left.isDown) {
       eating = true;
       sprite.body.setVelocityX(-200);
@@ -117,5 +111,4 @@ export default class GameScene extends Phaser.Scene {
       this.scene.start('GameOver');
     }
   }
-};
-
+}
