@@ -20,6 +20,7 @@ export default class GameOverScene extends Phaser.Scene {
     const user = this.sys.game.globals.model.userName;
     const score = localStorage.getItem('score');
     localStorage.clear();
+    console.log(score)
     API.postScores(user, score);
     this.scoreText = this.add.text(
       200,

@@ -26,7 +26,7 @@ export default class LeaderBoardScene extends Phaser.Scene {
       this.add.text(190, 100, 'RANK      NAME                 SCORE', {
         fontSize: '20px',
       });
-      this.size = result.length < 8 ? result.length : 8;
+      this.size = result.length < 40 ? result.length : 8;
 
       let spacing = 100;
 

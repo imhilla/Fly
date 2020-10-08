@@ -12,11 +12,20 @@ const LocalStorage = (() => {
     return score;
   }
 
+  function readCounter() {
+    const counter = localStorage.getItem('counter');
+
+    if (!counter) {
+      return 0;
+    }
+    return counter;
+  }
+
   function clearLocalStorage() {
     localStorage.clear();
   }
 
-  return { saveLocalStorage, readLocalStorage, clearLocalStorage };
+  return { saveLocalStorage, readLocalStorage, clearLocalStorage, readCounter };
 })();
 
 export default LocalStorage;
