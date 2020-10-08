@@ -23,10 +23,11 @@ export default class TitleScene extends Phaser.Scene {
   centerButton(gameObject, offset = 0) {
     Phaser.Display.Align.In.Center(
       gameObject,
-      this.add.zone(config.width / 2, config.height / 2 - offset * 100, config.width, config.height),
+      this.add.zone(config.width / 2, config.height / 2 - offset * 100, config.width, config.height)
     );
   }
 
+  // eslint-disable-next-line class-methods-use-this
   centerButtonText(gameText, gameButton) {
     Phaser.Display.Align.In.Center(
       gameText,

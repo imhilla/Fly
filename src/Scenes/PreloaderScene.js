@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars, prefer-destructuring */
 /* eslint-disable no-undef, import/no-extraneous-dependencies */
+/* eslint no-var: off */
 import Phaser from 'phaser';
 
 export default class PreloaderScene extends Phaser.Scene {

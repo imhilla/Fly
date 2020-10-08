@@ -85,6 +85,7 @@ export default class GameScene extends Phaser.Scene {
       eating = true;
       sprite.body.setVelocityY(-200);
     }
+
     else if (cursors.down.isDown) {
       eating === true;
       sprite.body.setVelocityY(200);
@@ -93,6 +94,7 @@ export default class GameScene extends Phaser.Scene {
       eating = true;
       sprite.body.setVelocityX(-200);
     }
+
     else if (cursors.right.isDown) {
       eating = true;
       sprite.body.setVelocityX(200);
