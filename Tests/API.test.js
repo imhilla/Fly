@@ -35,3 +35,11 @@ it('should send an object to the API', () => {
     })
     .catch(() => { });
 });
+
+it('should save score and username', () => {
+  API.postScores('Hillary', 300)
+    .then((data) => {
+      expect(data.result).toBe('Success!');
+    })
+    .catch(() => {});
+});
