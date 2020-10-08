@@ -1,4 +1,4 @@
-import 'phaser';
+import Phaser from 'phaser';
 import GameOverScene from './GameOverScene';
 import LocalStorage from '../Objects/LocalStorage';
 import Counter from '../Objects/counter';
