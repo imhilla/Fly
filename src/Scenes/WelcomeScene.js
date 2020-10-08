@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 import Phaser from 'phaser';
-import Button from '../Objects/Button';
-import blue_button02 from '../Scenes/asset/blue_button02.png';
+import blue_button02 from './asset/blue_button02.png';
 
 export default class WelcomeScene extends Phaser.Scene {
   constructor() {

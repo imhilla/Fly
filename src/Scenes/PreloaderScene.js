@@ -1,4 +1,10 @@
-import 'phaser';
+import Phaser from 'phaser';
+const progressBar
+const width
+const height
+const loadingText
+const percentText
+const assetText
 
 export default class PreloaderScene extends Phaser.Scene {
   constructor() {
@@ -11,42 +17,41 @@ export default class PreloaderScene extends Phaser.Scene {
 
   preload() {
     this.add.image(400, 200, 'logo');
-    var progressBar = this.add.graphics();
-    var progressBox = this.add.graphics();
+    progressBox = this.add.graphics();
     progressBox.fillStyle(0x222222, 0.8);
     progressBox.fillRect(240, 270, 320, 50);
-    var width = this.cameras.main.width;
-    var height = this.cameras.main.height;
-    var loadingText = this.make.text({
+    width = this.cameras.main.width;
+    height = this.cameras.main.height;
+    loadingText = this.make.text({
       x: width / 2,
       y: height / 2 - 50,
       text: 'Loading...',
       style: {
         font: '20px monospace',
-        fill: '#ffffff'
-      }
+        fill: '#ffffff',
+      },
     });
     loadingText.setOrigin(0.5, 0.5);
 
-    var percentText = this.make.text({
+    percentText = this.make.text({
       x: width / 2,
       y: height / 2 - 5,
       text: '0%',
       style: {
         font: '18px monospace',
-        fill: '#ffffff'
-      }
+        fill: '#ffffff',
+      },
     });
     percentText.setOrigin(0.5, 0.5);
 
-    var assetText = this.make.text({
+    assetText = this.make.text({
       x: width / 2,
       y: height / 2 + 50,
       text: '',
       style: {
         font: '18px monospace',
-        fill: '#ffffff'
-      }
+        fill: '#ffffff',
+      },
     });
     assetText.setOrigin(0.5, 0.5);
     this.load.on('progress', function (value) {
