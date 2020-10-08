@@ -17,7 +17,7 @@ export default class PreloaderScene extends Phaser.Scene {
   preload() {
     this.add.image(400, 200, 'logo');
     const progressBar = this.add.graphics();
-    let progressBox = this.add.graphics();
+    const progressBox = this.add.graphics();
     progressBox.fillStyle(0x222222, 0.8);
     progressBox.fillRect(240, 270, 320, 50);
     const width = this.cameras.main.width;
@@ -56,7 +56,7 @@ export default class PreloaderScene extends Phaser.Scene {
     assetText.setOrigin(0.5, 0.5);
     this.load.on('progress', (value) => {
       // eslint-disable-next-line
-      percentText.setText(parseInt(value * 100) + '%');
+      percentText.setText(`${parseInt(value * 100)}%`);
       progressBar.clear();
       progressBar.fillStyle(0xffffff, 1);
       progressBar.fillRect(250, 280, 300 * value, 30);

@@ -42,6 +42,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create() {
+    var i;
     this.spaceField = this.add.tileSprite(0, 0, 1600, 1400, 'sky');
     sprite = this.physics.add.sprite(300, 500, 'phaser');
     sprite.setBounce(0.2);
@@ -60,7 +61,7 @@ export default class GameScene extends Phaser.Scene {
       key: 'apple',
       repeat: 40,
     });
-    for (var i = 0; i < 12; i += 1) {
+    for (i = 0; i < 12; i += 1) {
       const apple = apples.create(i * 70, 0, 'apple');
       apple.body.gravity.y = 1000;
       apple.body.bounce.y = 0.3 + Math.random() * 0.5;
