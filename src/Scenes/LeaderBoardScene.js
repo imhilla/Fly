@@ -1,9 +1,9 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-restricted-globals */
 /* eslint no-undef: 0 */
-import 'phaser';
+import Phaser from 'phaser';
 import API from '../Objects/API';
-import blue_button02 from '../Scenes/asset/blue_button02.png';
+import blue_button02 from './asset/blue_button02.png';
 
 export default class LeaderBoardScene extends Phaser.Scene {
   constructor() {
@@ -47,7 +47,7 @@ export default class LeaderBoardScene extends Phaser.Scene {
     menu.addListener('click');
 
     menu.on('click', () => {
-      window.location.reload()
+      window.location.reload();
     });
   }
 }

@@ -1,14 +1,14 @@
-import 'phaser';
+/* eslint-disable func-names */
+/* eslint-disable no-unused-expressions */
+import Phaser from 'phaser';
 import Button from '../Objects/Button';
 
 export default class OptionsScene extends Phaser.Scene {
-  constructor () {
+  constructor() {
     super('Options');
   }
-
-  create () {
+  create() {
     this.model = this.sys.game.globals.model;
-
     this.text = this.add.text(300, 100, 'Options', { fontSize: 40 });
     this.musicButton = this.add.image(200, 200, 'checkedBox');
     this.musicText = this.add.text(250, 190, 'Music Enabled', { fontSize: 24 });
@@ -30,7 +30,6 @@ export default class OptionsScene extends Phaser.Scene {
     }.bind(this));
 
     this.menuButton = new Button(this, 400, 500, 'blueButton1', 'blueButton2', 'Menu', 'Title');
-
     this.updateAudio();
   }
 
@@ -46,11 +45,10 @@ export default class OptionsScene extends Phaser.Scene {
         this.model.bgMusicPlaying = true;
       }
     }
-
     if (this.model.soundOn === false) {
       this.soundButton.setTexture('box');
     } else {
       this.soundButton.setTexture('checkedBox');
     }
   }
-};
+}

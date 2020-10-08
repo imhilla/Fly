@@ -1,3 +1,5 @@
+/* eslint-disable func-names */
+/* eslint-disable no-unused-expressions */
 import Phaser from 'phaser';
 import GameOverScene from './GameOverScene';
 import LocalStorage from '../Objects/LocalStorage';
@@ -16,6 +18,7 @@ export default class GameScene extends Phaser.Scene {
   constructor() {
     super('Game');
   }
+
   preload() {
     this.load.image('tiles', './assets/cybernoid.png', 16, 16);
     this.load.image('phaser', 'assets/phaser-ship.png');
@@ -27,6 +30,7 @@ export default class GameScene extends Phaser.Scene {
       { frameWidth: 32, frameHeight: 48 }
     );
   }
+
   create() {
     this.spaceField = this.add.tileSprite(0, 0, 1600, 1400, 'sky');
     sprite = this.physics.add.sprite(300, 500, 'phaser');
@@ -60,6 +64,7 @@ export default class GameScene extends Phaser.Scene {
     this.timeLeft = this.add.text(20, 100, `Fuel left: ${Counter.getCounter()}`, { fontSize: '32px', fill: '#FFF' });
     cursors = this.input.keyboard.createCursorKeys();
   }
+
   update() {
     var eating = false;
     this.spaceField.tilePositionY += 2;
@@ -99,6 +104,7 @@ export default class GameScene extends Phaser.Scene {
     }
   }
 };
+
 var startedEating = false;
 function collectApple(sprite, apple) {
   apple.disableBody(true, true);
