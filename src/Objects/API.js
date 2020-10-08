@@ -47,8 +47,3 @@ const API = (() => {
 })();
 
 export default API;
-
-
-// {
-//     "result": "Game with ID: UAXSbV8jwtwhJKDROcgR added."
-// }

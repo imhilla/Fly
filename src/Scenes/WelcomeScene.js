@@ -22,20 +22,9 @@ export default class WelcomeScene extends Phaser.Scene {
       270,
       `Use the direction keys to navigate & the space key to attack.
 
-      Try to avoid enemies as much as possible and the 
-      enemies will get triggered within a certain range.`,
+      Try to collect as much possible apples in ten seconds`,
       { fontSize: 20 },
     );
-
-    // this.menuButton = new Button(
-    //   this,
-    //   400,
-    //   550,
-    //   'blueButton1',
-    //   'blueButton2',
-    //   'Menu',
-    //   'Title',
-    // );
 
     this.intro = this.add.text(215, 400, 'Enter your name: ', {
       fontSize: 20,

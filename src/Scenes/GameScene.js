@@ -10,6 +10,8 @@ let spaceField
 let youWin
 var sprite
 var scoreText
+var counter = 10
+
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -31,7 +33,7 @@ export default class GameScene extends Phaser.Scene {
   create() {
     this.spaceField = this.add.tileSprite(0, 0, 1600, 1400, 'sky')
 
-    sprite = this.physics.add.sprite(300, 90, 'phaser');
+    sprite = this.physics.add.sprite(300, 500, 'phaser');
     sprite.setBounce(0.2);
     sprite.setCollideWorldBounds(true);
 
@@ -44,26 +46,32 @@ export default class GameScene extends Phaser.Scene {
 
     let ledge = platforms.create(400, 450, 'ground')
     ledge.body.immovable = true
-
     this.physics.add.collider(sprite, platforms);
 
     diamonds = this.physics.add.group({
       key: 'diamond',
-      repeat: 11,
-    });
-
-    diamonds.children.iterate(function (child) {
-      child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+      repeat: 40,
     });
 
     for (var i = 0; i < 12; i++) {
       const diamond = diamonds.create(i * 70, 0, 'diamond')
       diamond.body.gravity.y = 1000
-      diamond.body.bounce.y = 0.3 + Math.random() * 0.2
+      diamond.body.bounce.y = 0.3 + Math.random() * 0.5
+      //  This gets it moving
+      diamond.body.velocity.setTo(1200, 400);
+
+      //  This makes the game world bounce-able
+      diamond.body.collideWorldBounds = true;
+      //  This sets the image bounce energy for the horizontal  and vertical vectors (as an x,y point). "1" is 100% energy return
+      diamond.body.bounce.set(0.9);
+
+      diamond.body.gravity.set(0, 180);
+
     }
 
     this.physics.add.collider(diamonds, platforms);
     this.scoreText = this.add.text(16, 16, `Score: ${LocalStorage.readLocalStorage()}`, { fontSize: '32px', fill: '#FFF' })
+    this.timeLeft = this.add.text(20, 100, `Time left: ${counter}`, { fontSize: '32px', fill: '#FFF' })
     cursors = this.input.keyboard.createCursorKeys();
   }
 
@@ -89,18 +97,24 @@ export default class GameScene extends Phaser.Scene {
     this.physics.add.overlap(sprite, diamonds, collectDiamond, null, this)
 
     if (score === 100) {
-      // alert('You win!')
-      // score = 0
-      this.scoreText.setText(`Score: ${LocalStorage.readLocalStorage()}`);
+      this.scoreText.setText(`Score: ${LocalStorage.saveLocalStorage(score)}`);
+      this.scene.start('GameOver');
+    }
+
+    if (counter === 0) {
       this.scene.start('GameOver');
     }
   }
 };
-
+var startedEating = false
 function collectDiamond(sprite, diamond) {
   diamond.disableBody(true, true);
+  startedEating = true;
   score += 10;
   this.scoreText.setText('Score: ' + score);
+  if (startedEating === true && score === 10) {
+    timeOut()
+  }
 
   if (diamonds.countActive(true) === 0) {
     diamonds.children.iterate(function (child) {
@@ -111,4 +125,10 @@ function collectDiamond(sprite, diamond) {
 
     var x = (sprite.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
   }
+
+}
+
+function timeOut() {
+  'upumbavvu'
+  // timeLeft = -1
 }
