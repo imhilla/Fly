@@ -3,7 +3,6 @@
 import Phaser from 'phaser';
 import API from '../Objects/API';
 import blue_button02 from '../Scenes/asset/blue_button02.png';
-let spaceField;
 
 export default class GameOverScene extends Phaser.Scene {
   constructor() {
@@ -12,7 +11,7 @@ export default class GameOverScene extends Phaser.Scene {
 
   preload() {
     this.load.image('sky', 'assets/space.png');
-    this.load.image('button', '../assets/ui/blue_button02.png');
+    this.load.image('button', './asset/blue_button02.png');
   }
 
   create() {

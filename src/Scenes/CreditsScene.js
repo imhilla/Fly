@@ -34,7 +34,7 @@ export default class CreditsScene extends Phaser.Scene {
       delay: 1000,
       onComplete() {
         this.destroy;
-      }
+      },
     });
 
     this.madeByTween = this.tweens.add({
@@ -49,4 +49,4 @@ export default class CreditsScene extends Phaser.Scene {
       }.bind(this),
     });
   }
-};
+}

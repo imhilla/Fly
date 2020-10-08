@@ -9,7 +9,6 @@ const Counter = (() => {
   }
 
   return { getCounter, saveStorage };
-
 })();
 
 export default Counter;

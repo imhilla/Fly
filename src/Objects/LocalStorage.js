@@ -23,8 +23,9 @@ const LocalStorage = (() => {
     localStorage.clear();
   }
 
-  return { saveLocalStorage, readLocalStorage, clearLocalStorage, readCounter };
-  
+  return {
+    saveLocalStorage, readLocalStorage, clearLocalStorage, readCounter
+  };
 })();
 
 export default LocalStorage;
