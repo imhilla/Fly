@@ -144,6 +144,7 @@
     "pify": "^2.3.0",
     "posix-character-classes": "^0.1.1",
     "process": "^0.11.10",
+    "phaser": "^3.3.0",
     "process-nextick-args": "^2.0.1",
     "prr": "^1.0.1",
     "pseudomap": "^1.0.2",

@@ -24,7 +24,7 @@ const LocalStorage = (() => {
   }
 
   return {
-    saveLocalStorage, readLocalStorage, clearLocalStorage, readCounter
+    saveLocalStorage, readLocalStorage, clearLocalStorage, readCounter,
   };
 })();
 
