@@ -85,18 +85,15 @@ export default class GameScene extends Phaser.Scene {
     if (cursors.up.isDown) {
       eating = true;
       sprite.body.setVelocityY(-200);
-    }
-
-    else if (cursors.down.isDown) {
+    } else if (cursors.down.isDown) {
       eating === true;
       sprite.body.setVelocityY(200);
     }
+
     if (cursors.left.isDown) {
       eating = true;
       sprite.body.setVelocityX(-200);
-    }
-
-    else if (cursors.right.isDown) {
+    } else if (cursors.right.isDown) {
       eating = true;
       sprite.body.setVelocityX(200);
     }
