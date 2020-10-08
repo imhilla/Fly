@@ -11,18 +11,6 @@ let cursors;
 let sprite;
 let counter = 1000;
 
-const collectApple = (sprite, apple) => {
-  apple.disableBody(true, true)
-  startedEating = true;
-  score += 10;
-  this.scoreText.setText(`Score: ${score}`);
-  if (apples.countActive(true) === 0) {
-    apples.children.iterate(function (child) {
-      child.enableBody(true, child.x, 0, true, true);
-    });
-  }
-}
-
 export default class GameScene extends Phaser.Scene {
   constructor() {
     super('Game');
@@ -36,7 +24,7 @@ export default class GameScene extends Phaser.Scene {
     this.load.image('sky', 'assets/space.png');
     this.load.spritesheet('woof',
       './assets/woof.png',
-      { frameWidth: 32, frameHeight: 48 },
+      { frameWidth: 32, frameHeight: 48 }
     );
   }
 
@@ -52,14 +40,14 @@ export default class GameScene extends Phaser.Scene {
     platforms.create(400, 568, 'ground').setScale(2).refreshBody();
     platforms.create(50, 250, 'ground');
     platforms.create(750, 220, 'ground');
-    const ledge = platforms.create(400, 450, 'ground');
+    let ledge = platforms.create(400, 450, 'ground');
     ledge.body.immovable = true;
     this.physics.add.collider(sprite, platforms);
     apples = this.physics.add.group({
       key: 'apple',
       repeat: 40,
     });
-    for (let i = 0; i < 12; i += 1) {
+    for (var i = 0; i < 12; i++) {
       const apple = apples.create(i * 70, 0, 'apple');
       apple.body.gravity.y = 1000;
       apple.body.bounce.y = 0.3 + Math.random() * 0.5;
@@ -75,7 +63,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   update() {
-    let eating = false;
+    var eating = false;
     this.spaceField.tilePositionY += 2;
     sprite.body.setVelocityX(0);
     sprite.body.setVelocityY(0);
@@ -84,7 +72,6 @@ export default class GameScene extends Phaser.Scene {
       eating = true;
       sprite.body.setVelocityY(-200);
     }
-
     else if (cursors.down.isDown) {
       eating === true;
       sprite.body.setVelocityY(200);
@@ -114,3 +101,16 @@ export default class GameScene extends Phaser.Scene {
     }
   }
 };
+
+var startedEating = false;
+function collectApple(sprite, apple) {
+  apple.disableBody(true, true);
+  startedEating = true;
+  score += 10;
+  this.scoreText.setText(`Score: ${score}`);
+  if (apples.countActive(true) === 0) {
+    apples.children.iterate(function (child) {
+      child.enableBody(true, child.x, 0, true, true);
+    });
+  }
+}
