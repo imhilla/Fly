@@ -1,6 +1,7 @@
 /* eslint-disable func-names */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars, prefer-destructuring */
+/* eslint no-var: off */
 
 import Phaser from 'phaser';
 import LocalStorage from '../Objects/LocalStorage';
