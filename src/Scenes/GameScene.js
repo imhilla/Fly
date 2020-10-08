@@ -16,7 +16,6 @@ export default class GameScene extends Phaser.Scene {
   constructor() {
     super('Game');
   }
-
   preload() {
     this.load.image('tiles', './assets/cybernoid.png', 16, 16);
     this.load.image('phaser', 'assets/phaser-ship.png');
@@ -28,7 +27,6 @@ export default class GameScene extends Phaser.Scene {
       { frameWidth: 32, frameHeight: 48 }
     );
   }
-
   create() {
     this.spaceField = this.add.tileSprite(0, 0, 1600, 1400, 'sky');
     sprite = this.physics.add.sprite(300, 500, 'phaser');
@@ -44,12 +42,10 @@ export default class GameScene extends Phaser.Scene {
     let ledge = platforms.create(400, 450, 'ground');
     ledge.body.immovable = true;
     this.physics.add.collider(sprite, platforms);
-
     apples = this.physics.add.group({
       key: 'apple',
       repeat: 40,
     });
-
     for (var i = 0; i < 12; i++) {
       const apple = apples.create(i * 70, 0, 'apple');
       apple.body.gravity.y = 1000;

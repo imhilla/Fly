@@ -41,5 +41,5 @@ it('should save score and username', () => {
     .then((data) => {
       expect(data.result).toBe('Success!');
     })
-    .catch(() => {});
+    .catch(() => { });
 });
