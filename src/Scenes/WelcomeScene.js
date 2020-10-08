@@ -9,21 +9,11 @@ export default class WelcomeScene extends Phaser.Scene {
   }
 
   create() {
-    // this.textKeys = this.add.text(325, 100, 'Key Controls', { fontSize: 20 });
-
-    // this.upKey = new Button(this, 460, 160, 'upKey', 'upKey');
-    // this.downKey = new Button(this, 460, 210, 'downKey', 'downKey');
-    // this.leftKey = new Button(this, 410, 185, 'leftKey', 'leftKey');
-    // this.rightKey = new Button(this, 510, 185, 'rightKey', 'rightKey');
-    // this.spaceKey = new Button(this, 310, 185, 'spaceKey', 'spaceKey');
-
     this.textInstructions = this.add.text(
       50,
       270,
-      `Use the direction keys to navigate & the space key to attack.
-
-      Try to collect as much possible apples in ten seconds`,
-      { fontSize: 20 },
+      `Hello there welcome to Fly. Enjoy while trying not to run out of fuel`,
+      { fontSize: 18 },
     );
 
     this.intro = this.add.text(215, 400, 'Enter your name: ', {

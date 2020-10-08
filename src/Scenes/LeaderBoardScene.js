@@ -2,7 +2,6 @@
 /* eslint-disable no-restricted-globals */
 /* eslint no-undef: 0 */
 import 'phaser';
-// import Button from '../Objects/Button';
 import API from '../Objects/API';
 import blue_button02 from '../Scenes/asset/blue_button02.png';
 
@@ -41,14 +40,14 @@ export default class LeaderBoardScene extends Phaser.Scene {
 
     const style = `background: url(${blue_button02}); cursor:pointer; color: #fff;`;
     const menu = this.add
-      .dom(400, 500, 'button', style, 'Menu')
+      .dom(400, 500, 'button', style, 'Restart')
       .setOrigin(0.5, 0.5);
     menu.scaleX = 4;
     menu.scaleY = 2;
     menu.addListener('click');
 
     menu.on('click', () => {
-      this.scene.start('Title');
+      window.location.reload()
     });
   }
 }

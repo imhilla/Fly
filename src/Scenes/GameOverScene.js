@@ -3,7 +3,7 @@
 import Phaser from 'phaser';
 import API from '../Objects/API';
 import blue_button02 from '../Scenes/asset/blue_button02.png';
-let spaceField
+let spaceField;
 
 export default class GameOverScene extends Phaser.Scene {
   constructor() {
@@ -16,11 +16,10 @@ export default class GameOverScene extends Phaser.Scene {
   }
 
   create() {
-    this.spaceField = this.add.tileSprite(0, 0, 1600, 1400, 'sky')
+    this.spaceField = this.add.tileSprite(0, 0, 1600, 1400, 'sky');
     const user = this.sys.game.globals.model.userName;
     const score = localStorage.getItem('score');
     localStorage.clear();
-    console.log(score)
     API.postScores(user, score);
     this.scoreText = this.add.text(
       200,
@@ -51,7 +50,7 @@ export default class GameOverScene extends Phaser.Scene {
     menu.addListener('click');
 
     menu.on('click', () => {
-      window.location.reload()
+      window.location.reload();
     });
   }
 
