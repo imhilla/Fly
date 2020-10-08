@@ -1,3 +1,6 @@
+/* eslint-disable func-names */
+/* eslint-disable no-unused-expressions */
+
 import Phaser from 'phaser';
 import config from '../Config/config';
 
@@ -13,12 +16,12 @@ export default class CreditsScene extends Phaser.Scene {
 
     Phaser.Display.Align.In.Center(
       this.creditsText,
-      this.zone
+      this.zone,
     );
 
     Phaser.Display.Align.In.Center(
       this.madeByText,
-      this.zone
+      this.zone,
     );
 
     this.madeByText.setY(1000);
@@ -29,7 +32,7 @@ export default class CreditsScene extends Phaser.Scene {
       ease: 'Power1',
       duration: 3000,
       delay: 1000,
-      onComplete: function () {
+      onComplete() {
         this.destroy;
       }
     });
@@ -43,7 +46,7 @@ export default class CreditsScene extends Phaser.Scene {
       onComplete: function () {
         this.madeByTween.destroy;
         this.scene.start('Title');
-      }.bind(this)
+      }.bind(this),
     });
   }
 };
