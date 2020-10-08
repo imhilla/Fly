@@ -11,7 +11,7 @@ export default class WelcomeScene extends Phaser.Scene {
     this.textInstructions = this.add.text(
       50,
       270,
-      `Hello there welcome to Fly. Enjoy while trying not to run out of fuel`,
+      `Hello there welcome to Fly, enjoy while trying not to run out of fuel`,
       { fontSize: 18 },
     );
 

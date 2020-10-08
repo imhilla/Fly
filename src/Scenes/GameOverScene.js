@@ -2,7 +2,7 @@
 /* eslint-disable no-restricted-globals */
 import Phaser from 'phaser';
 import API from '../Objects/API';
-import blue_button02 from '../Scenes/asset/blue_button02.png';
+import blue_button02 from './asset/blue_button02.png';
 
 export default class GameOverScene extends Phaser.Scene {
   constructor() {
