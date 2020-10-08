@@ -11,7 +11,7 @@ let spaceField
 let youWin
 var sprite
 var scoreText
-var counter = 500
+var counter = 1000
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -38,7 +38,7 @@ export default class GameScene extends Phaser.Scene {
     sprite.setCollideWorldBounds(true);
 
     localStorage.setItem('score', 0);
-    localStorage.setItem('counter', 500);
+    localStorage.setItem('counter', 1000);
     platforms = this.physics.add.staticGroup();
     platforms.enableBody = true
     platforms.create(400, 568, 'ground').setScale(2).refreshBody();
@@ -94,16 +94,13 @@ export default class GameScene extends Phaser.Scene {
 
     this.physics.add.overlap(sprite, diamonds, collectDiamond, null, this)
 
-   
     if (counter === 0) {
       this.scene.start('GameOver');
     }
-
     if (eating === true){
       counter -= 1;
       this.timeLeft.setText('Timeleft: ' + counter);
     }
-
     if (counter === 0) {
       this.scoreText.setText(`Score: ${LocalStorage.saveLocalStorage(score)}`);
       this.scene.start('GameOver');
