@@ -13,6 +13,7 @@ let apples;
 let cursors;
 let sprite;
 let counter = 1000;
+let mets
 
 var startedEating = false;
 function collectApple(sprite, apple) {
@@ -35,6 +36,7 @@ export default class GameScene extends Phaser.Scene {
   preload() {
     this.load.image('tiles', './assets/cybernoid.png', 16, 16);
     this.load.image('phaser', 'assets/phaser-ship.png');
+    this.load.image('met', './assets/met.png');
     this.load.image('ground', './assets/platform.png');
     this.load.image('apple', './assets/apple.png');
     this.load.image('sky', 'assets/space.png');
@@ -43,6 +45,7 @@ export default class GameScene extends Phaser.Scene {
 
   create() {
     var i;
+    var j;
     this.spaceField = this.add.tileSprite(0, 0, 1600, 1400, 'sky');
     sprite = this.physics.add.sprite(300, 500, 'phaser');
     sprite.setBounce(0.2);
@@ -52,25 +55,41 @@ export default class GameScene extends Phaser.Scene {
     platforms = this.physics.add.staticGroup();
     platforms.enableBody = true;
     platforms.create(400, 568, 'ground').setScale(2).refreshBody();
-    platforms.create(50, 250, 'ground');
-    platforms.create(750, 220, 'ground');
-    const ledge = platforms.create(400, 450, 'ground');
-    ledge.body.immovable = true;
     this.physics.add.collider(sprite, platforms);
     apples = this.physics.add.group({
       key: 'apple',
-      repeat: 40,
+      repeat: 70,
     });
+
     for (i = 0; i < 12; i += 1) {
       const apple = apples.create(i * 70, 0, 'apple');
       apple.body.gravity.y = 1000;
       apple.body.bounce.y = 0.3 + Math.random() * 0.5;
-      apple.body.velocity.setTo(1200, 400);
-      apple.body.collideWorldBounds = true;
+      apple.body.velocity.setTo(100, 400);
+      apple.setCollideWorldBounds(true);
       apple.body.bounce.set(0.9);
       apple.body.gravity.set(0, 180);
     }
+    mets = this.physics.add.group({
+      key: 'met',
+      repeat: 4,
+    });
+
+    for (j = 0; j < 3; j += 1) {
+      const met = mets.create(j * 70, 0, 'met');
+      met.body.gravity.y = 5000;
+      met.body.bounce.y = 0.3 + Math.random() * 0.5;
+      met.body.velocity.setTo(1200, 400);
+      met.body.collideWorldBounds = true;
+      met.body.bounce.set(0.9);
+      met.body.gravity.set(0, 100);
+    }
+
     this.physics.add.collider(apples, platforms);
+    this.physics.add.collider(mets, apples);
+    this.physics.add.collider(mets, mets);
+    this.physics.add.collider(mets, platforms);
+    this.physics.add.collider(mets, sprite);
     this.scoreText = this.add.text(16, 16, `Score: ${LocalStorage.readLocalStorage()}`, { fontSize: '32px', fill: '#FFF' });
     this.timeLeft = this.add.text(20, 100, `Fuel left: ${Counter.getCounter()}`, { fontSize: '32px', fill: '#FFF' });
     cursors = this.input.keyboard.createCursorKeys();
