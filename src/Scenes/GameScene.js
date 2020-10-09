@@ -13,7 +13,7 @@ let apples;
 let cursors;
 let sprite;
 let counter = 1000;
-let mets
+let mets;
 
 var startedEating = false;
 function collectApple(sprite, apple) {
