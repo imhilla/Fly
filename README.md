@@ -19,6 +19,10 @@ Play while try not to run out of gas.
 
 <img src="./screenshot.PNG" alt="">
 
+## Live link
+
+Here is a live <a href="https://fly-game.herokuapp.com/">link</a> to the game.
+
 ## Features
 
 In this project the following features were implemented.
