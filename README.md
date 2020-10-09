@@ -16,6 +16,9 @@ The player uses keyboard up, down, left and right keys to navigate and collect t
 
 Play while try not to run out of gas.
 
+
+<img src="./screenshot.PNG" alt="">
+
 ## Features
 
 In this project the following features were implemented.
