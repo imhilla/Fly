@@ -16,10 +16,6 @@ The player uses keyboard up, down, left and right keys to navigate and collect t
 
 Play while try not to run out of gas.
 
-## Live version
-
-Heres a live <a href="https://raw.githack.com/imhilla/tictactoe/feature/index.html">link</a>
-
 ## Features
 
 In this project the following features were implemented.
