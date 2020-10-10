@@ -16,6 +16,11 @@ The player uses keyboard up, down, left and right keys to navigate and collect t
 
 Play while try not to run out of gas.
 
+## Game design and mechanics
+
+- Use direction keys to move the sprite
+- Collide with the apples to collect points.
+- While moving the player try not to hit the mets.
 
 <img src="./screenshot.PNG" alt="">
 
